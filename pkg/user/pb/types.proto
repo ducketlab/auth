@@ -1,0 +1,16 @@
+syntax = 'proto3';
+
+package auth.user;
+
+option go_package = "github.com/ducketlab/auth/pkg/user";
+
+enum UserType {
+  SUB = 0;
+  PRIMARY = 1;
+  SUPPER = 2;
+  INTERNAL = 3;
+  DOMAIN_ADMIN = 4;
+  ORG_ADMIN = 5;
+  PERM_ADMIN = 6;
+  AUDIT_ADMIN = 7;
+}

@@ -32,3 +32,7 @@ func newDefaultApp() *app {
 		Key:      "default",
 	}
 }
+
+func (a *app) GrpcAddr() string {
+	return a.Host + ":" + a.GrpcPort
+}

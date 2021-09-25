@@ -1,0 +1,14 @@
+syntax = 'proto3';
+
+package auth.domain;
+
+option go_package = "github.com/ducketlab/auth/pkg/domain";
+
+import "pkg/domain/pb/domain.proto";
+import "pkg/domain/pb/request.proto";
+
+service DomainService {
+  rpc CreateDomain(CreateDomainRequest) returns(Domain);
+  rpc DescribeDomain(DescribeDomainRequest) returns(Domain);
+  rpc DeleteDomain(DeleteDomainRequest) returns(Domain);
+}

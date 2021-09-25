@@ -1,0 +1,121 @@
+syntax = 'proto3';
+
+package auth.token;
+
+option go_package = "github.com/ducketlab/auth/pkg/token";
+
+import "pkg/user/pb/types.proto";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+enum GrantType {
+  NULL = 0;
+  UNKNOWN = 1;
+  PASSWORD = 2;
+  LDAP = 3;
+  REFRESH = 4;
+  ACCESS = 5;
+  CLIENT = 6;
+  AUTH_CODE = 7;
+  IMPLICIT = 8;
+}
+
+enum TokenType {
+  BEARER = 0;
+  MAC = 1;
+  JWT = 2;
+}
+
+enum BlockType {
+  SESSION_TERMINATED = 0;
+  OTHER_CLIENT_LOGGED_IN = 1;
+  OTHER_PLACE_LOGGED_IN = 2;
+  OTHER_IP_LOGGED_IN = 3;
+}
+
+message Token {
+  string session_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"session_id" json:"session_id"'}
+  ];
+  string access_token = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"_id" json:"access_token"'}
+  ];
+  string refresh_token = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"refresh_token" json:"refresh_token,omitempty"'}
+  ];
+  int64 create_at = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at,omitempty"'}
+  ];
+  int64 access_expired_at = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"access_expired_at" json:"access_expired_at,omitempty"'}
+  ];
+  int64 refresh_expired_at = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"refresh_expired_at" json:"refresh_expired_at,omitempty"'}
+  ];
+  string domain = 8[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"domain" json:"domain,omitempty"'}
+  ];
+  user.UserType user_type = 9[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"user_type" json:"user_type"'}
+  ];
+  string account = 10[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"account" json:"account"'}
+  ];
+  string application_id = 11[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"application_id" json:"application_id"'}
+  ];
+  string application_name = 12[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"application_name" json:"application_name"'}
+  ];
+  string client_id = 13[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"client_id" json:"client_id"'}
+  ];
+  GrantType start_grant_type = 14[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"start_grant_type" json:"start_grant_type"'}
+  ];
+  GrantType grant_type = 15[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"grant_type" json:"grant_type"'}
+  ];
+  TokenType type = 16[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"type" json:"type"'}
+  ];
+  string namespace = 25[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"namespace" json:"namespace"'}
+  ];
+  string scope = 17[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"scope" json:"scope"'}
+  ];
+  string description = 18[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"description" json:"description"'}
+  ];
+  bool is_block = 19[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"is_block" json:"is_block"'}
+  ];
+  BlockType block_type = 20[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"block_type" json:"block_type"'}
+  ];
+  int64 block_at = 21[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"block_at" json:"block_at"'}
+  ];
+  string block_reason = 22[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"block_reason" json:"block_reason"'}
+  ];
+  string remote_ip = 23[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"-" json:"-"'}
+  ];
+  string user_agent = 24[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"-" json:"-"'}
+  ];
+  repeated string available_namespace = 26[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"-" json:"available_namespace"'}
+  ];
+}
+
+message Set {
+  int64 total = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"total" json:"total"'}
+  ];
+  repeated Token items = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"items" json:"items"'}
+  ];
+}

@@ -1,0 +1,14 @@
+syntax = 'proto3';
+
+package auth.token;
+
+option go_package = "github.com/ducketlab/auth/pkg/token";
+
+message ValidateTokenRequest {
+  string namespace_id = 1;
+}
+
+message DescribeTokenRequest {
+  string access_token = 1;
+  string refresh_token = 2;
+}

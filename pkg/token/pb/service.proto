@@ -1,0 +1,13 @@
+syntax = 'proto3';
+
+package auth.token;
+
+option go_package = "github.com/ducketlab/auth/pkg/token";
+
+import "pkg/token/pb/token.proto";
+import "pkg/token/pb/request.proto";
+
+service TokenService {
+  rpc ValidateToken(ValidateTokenRequest) returns (Token);
+  rpc DescribeToken(DescribeTokenRequest) returns (Token);
+}

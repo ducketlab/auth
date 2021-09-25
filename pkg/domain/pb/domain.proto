@@ -1,0 +1,34 @@
+syntax = 'proto3';
+
+package auth.domain;
+
+option go_package = "github.com/ducketlab/auth/pkg/domain";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+message Domain {
+  string name = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"_id" json:"name"'}
+  ];
+  int64 create_at = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at"'}
+  ];
+  int64 update_at = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"update_at" json:"update_at"'}
+  ];
+  string owner = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"owner" json:"owner"'}
+  ];
+  bool enabled = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"enabled" json:"enabled"'}
+  ];
+}
+
+message Set {
+  int64 total = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"total" json:"total"'}
+  ];
+  repeated Domain items = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"items" json:"items"'}
+  ];
+}
