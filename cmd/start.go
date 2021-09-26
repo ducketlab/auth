@@ -2,15 +2,19 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"github.com/ducketlab/auth/config"
 	"github.com/ducketlab/auth/pkg"
 	"github.com/ducketlab/auth/protocol"
 	"github.com/ducketlab/mingo/logger"
+	"github.com/ducketlab/mingo/logger/zap"
 	"github.com/spf13/cobra"
 	"os"
 	"os/signal"
 	"strings"
 	"syscall"
+
+	_ "github.com/ducketlab/auth/pkg/all"
 )
 
 var (
@@ -24,6 +28,10 @@ var serviceCmd = &cobra.Command{
 	Long:  "start service",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := loadGlobalConfig(confType); err != nil {
+			return err
+		}
+
+		if err := loadGlobalComponent(); err != nil {
 			return err
 		}
 
@@ -75,19 +83,71 @@ func (s *service) waitSign(sign chan os.Signal) {
 }
 
 func (s *service) start() error {
-	s.log.Infof("loaded domain pkg: %v", pkg.LoadedService())
+	s.log.Infof("loaded service pkg: %v", pkg.LoadedService())
 
 	return s.grpc.Start()
 }
 
 func newService(config *config.Config) (*service, error) {
+
+	log := zap.L().Named("cli")
+
 	grpc := protocol.NewGrpcService()
 
 	service := &service{
 		grpc: grpc,
+		log: log,
 	}
 
 	return service, nil
+}
+
+func loadGlobalComponent() error {
+	if err := loadGlobalLogger(); err != nil {
+		return err
+	}
+	return nil
+}
+
+func loadGlobalLogger() error {
+	var (
+		logInitMsg string
+		level      zap.Level
+	)
+
+	lc := config.C().Log
+	lv, err := zap.NewLevel(lc.Level)
+	if err != nil {
+		logInitMsg = fmt.Sprintf("%s, use default level INFO", err)
+		level = zap.InfoLevel
+	} else {
+		level = lv
+		logInitMsg = fmt.Sprintf("log level: %s", lv)
+	}
+
+	zapConfig := zap.DefaultConfig()
+	zapConfig.Level = level
+
+	switch lc.To {
+	case config.ToStdout:
+		zapConfig.ToStderr = true
+		zapConfig.ToFiles = false
+	case config.ToFile:
+		zapConfig.Files.Name = "api.log"
+		zapConfig.Files.Path = lc.PathDir
+	}
+
+	switch lc.Format {
+	case config.JSONFormat:
+		zapConfig.Json = true
+	}
+
+	if err := zap.Configure(zapConfig); err != nil {
+		return err
+	}
+
+	zap.L().Named("init").Info(logInitMsg)
+	return nil
 }
 
 func loadGlobalConfig(configType string) error {

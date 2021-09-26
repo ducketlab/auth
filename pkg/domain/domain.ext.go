@@ -3,11 +3,6 @@ package domain
 import (
 	"errors"
 	"github.com/ducketlab/mingo/types/ftime"
-	"github.com/go-playground/validator/v10"
-)
-
-var (
-	validate = validator.New()
 )
 
 func New(owner string, req *CreateDomainRequest) (*Domain, error) {

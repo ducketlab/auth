@@ -1,6 +1,13 @@
 package domain
 
-import "fmt"
+import (
+	"fmt"
+	"github.com/go-playground/validator/v10"
+)
+
+var (
+	validate = validator.New()
+)
 
 func (req *DescribeDomainRequest) Validate() error {
 	if req.Name == "" {

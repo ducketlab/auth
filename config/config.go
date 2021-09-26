@@ -2,11 +2,13 @@ package config
 
 type Config struct {
 	App *app `toml:"app"`
+	Log *log `toml:"log"`
 }
 
 func newConfig() *Config {
 	return &Config{
 		App: newDefaultApp(),
+		Log: newDefaultLog(),
 	}
 }
 
@@ -23,6 +25,13 @@ type app struct {
 	Key      string `toml:"key" env:"AUTH_APP_KEY"`
 }
 
+type log struct {
+	Level   string    `toml:"level" env:"AUTH_LOG_LEVEL"`
+	PathDir string    `toml:"path_dir" env:"AUTH_LOG_PATH"`
+	Format  LogFormat `toml:"format" env:"AUTH_LOG_FORMAT"`
+	To      LogTo     `toml:"to" env:"AUTH_LOG_TO"`
+}
+
 func newDefaultApp() *app {
 	return &app{
 		Name:     "auth",
@@ -30,6 +39,15 @@ func newDefaultApp() *app {
 		HttpPort: "8050",
 		GrpcPort: "18050",
 		Key:      "default",
+	}
+}
+
+func newDefaultLog() *log {
+	return &log{
+		Level:   "debug",
+		PathDir: "logs",
+		Format:  "text",
+		To:      "stdout",
 	}
 }
 

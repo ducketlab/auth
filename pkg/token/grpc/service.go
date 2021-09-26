@@ -7,7 +7,7 @@ import (
 )
 
 var (
-	Service = service{}
+	Service = &service{}
 )
 
 type service struct {
