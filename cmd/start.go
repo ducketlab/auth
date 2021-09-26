@@ -63,6 +63,7 @@ var serviceCmd = &cobra.Command{
 
 type service struct {
 	grpc *protocol.GrpcService
+	http *protocol.HttpService
 	log  logger.Logger
 }
 
@@ -76,6 +77,12 @@ func (s *service) waitSign(sign chan os.Signal) {
 				if err := s.grpc.Stop(); err != nil {
 					s.log.Errorf("grpc graceful shutdown err: %s, force exit", err)
 				}
+				s.log.Info("grpc service stop complete")
+
+				if err := s.http.Stop(); err != nil {
+					s.log.Errorf("http graceful shutdown err: %s, force exit", err)
+				}
+				s.log.Infof("http service stop complete")
 				return
 			}
 		}
@@ -84,8 +91,10 @@ func (s *service) waitSign(sign chan os.Signal) {
 
 func (s *service) start() error {
 	s.log.Infof("loaded service pkg: %v", pkg.LoadedService())
+	s.log.Infof("loaded http service: %s", pkg.LoadedHttp())
 
-	return s.grpc.Start()
+	go s.grpc.Start()
+	return s.http.Start()
 }
 
 func newService(config *config.Config) (*service, error) {
@@ -94,9 +103,12 @@ func newService(config *config.Config) (*service, error) {
 
 	grpc := protocol.NewGrpcService()
 
+	http := protocol.NewHTTPService()
+
 	service := &service{
 		grpc: grpc,
 		log: log,
+		http: http,
 	}
 
 	return service, nil

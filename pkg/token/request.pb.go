@@ -79,31 +79,31 @@ type DescribeTokenRequest struct {
 	RefreshToken string `protobuf:"bytes,2,opt,name=refresh_token,json=refreshToken,proto3" json:"refresh_token,omitempty"`
 }
 
-func (m *DescribeTokenRequest) Reset() {
-	*m = DescribeTokenRequest{}
+func (x *DescribeTokenRequest) Reset() {
+	*x = DescribeTokenRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_pkg_token_pb_request_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (m *DescribeTokenRequest) String() string {
-	return protoimpl.X.MessageStringOf(m)
+func (x *DescribeTokenRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
 }
 
 func (*DescribeTokenRequest) ProtoMessage() {}
 
-func (m *DescribeTokenRequest) ProtoReflect() protoreflect.Message {
+func (x *DescribeTokenRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_pkg_token_pb_request_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && m != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(m))
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
 		}
 		return ms
 	}
-	return mi.MessageOf(m)
+	return mi.MessageOf(x)
 }
 
 // Deprecated: Use DescribeTokenRequest.ProtoReflect.Descriptor instead.
@@ -111,16 +111,16 @@ func (*DescribeTokenRequest) Descriptor() ([]byte, []int) {
 	return file_pkg_token_pb_request_proto_rawDescGZIP(), []int{1}
 }
 
-func (m *DescribeTokenRequest) GetAccessToken() string {
-	if m != nil {
-		return m.AccessToken
+func (x *DescribeTokenRequest) GetAccessToken() string {
+	if x != nil {
+		return x.AccessToken
 	}
 	return ""
 }
 
-func (m *DescribeTokenRequest) GetRefreshToken() string {
-	if m != nil {
-		return m.RefreshToken
+func (x *DescribeTokenRequest) GetRefreshToken() string {
+	if x != nil {
+		return x.RefreshToken
 	}
 	return ""
 }

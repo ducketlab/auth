@@ -19,7 +19,7 @@ func (s service) Config() error {
 }
 
 func (s service) HttpEntry() *http.EntrySet {
-	return nil
+	return token.HttpEntry()
 }
 
 func init()  {

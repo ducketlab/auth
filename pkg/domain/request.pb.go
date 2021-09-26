@@ -32,31 +32,31 @@ type CreateDomainRequest struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name" bson:"name"`
 }
 
-func (req *CreateDomainRequest) Reset() {
-	*req = CreateDomainRequest{}
+func (x *CreateDomainRequest) Reset() {
+	*x = CreateDomainRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_pkg_domain_pb_request_proto_msgTypes[0]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(req))
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (req *CreateDomainRequest) String() string {
-	return protoimpl.X.MessageStringOf(req)
+func (x *CreateDomainRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
 }
 
 func (*CreateDomainRequest) ProtoMessage() {}
 
-func (req *CreateDomainRequest) ProtoReflect() protoreflect.Message {
+func (x *CreateDomainRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_pkg_domain_pb_request_proto_msgTypes[0]
-	if protoimpl.UnsafeEnabled && req != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(req))
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
 		}
 		return ms
 	}
-	return mi.MessageOf(req)
+	return mi.MessageOf(x)
 }
 
 // Deprecated: Use CreateDomainRequest.ProtoReflect.Descriptor instead.
@@ -64,9 +64,9 @@ func (*CreateDomainRequest) Descriptor() ([]byte, []int) {
 	return file_pkg_domain_pb_request_proto_rawDescGZIP(), []int{0}
 }
 
-func (req *CreateDomainRequest) GetName() string {
-	if req != nil {
-		return req.Name
+func (x *CreateDomainRequest) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }
@@ -79,31 +79,31 @@ type DescribeDomainRequest struct {
 	Name string `protobuf:"bytes,1,opt,name=name,proto3" json:"name" bson:"name"`
 }
 
-func (req *DescribeDomainRequest) Reset() {
-	*req = DescribeDomainRequest{}
+func (x *DescribeDomainRequest) Reset() {
+	*x = DescribeDomainRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_pkg_domain_pb_request_proto_msgTypes[1]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(req))
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
 }
 
-func (req *DescribeDomainRequest) String() string {
-	return protoimpl.X.MessageStringOf(req)
+func (x *DescribeDomainRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
 }
 
 func (*DescribeDomainRequest) ProtoMessage() {}
 
-func (req *DescribeDomainRequest) ProtoReflect() protoreflect.Message {
+func (x *DescribeDomainRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_pkg_domain_pb_request_proto_msgTypes[1]
-	if protoimpl.UnsafeEnabled && req != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(req))
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
 			ms.StoreMessageInfo(mi)
 		}
 		return ms
 	}
-	return mi.MessageOf(req)
+	return mi.MessageOf(x)
 }
 
 // Deprecated: Use DescribeDomainRequest.ProtoReflect.Descriptor instead.
@@ -111,9 +111,9 @@ func (*DescribeDomainRequest) Descriptor() ([]byte, []int) {
 	return file_pkg_domain_pb_request_proto_rawDescGZIP(), []int{1}
 }
 
-func (req *DescribeDomainRequest) GetName() string {
-	if req != nil {
-		return req.Name
+func (x *DescribeDomainRequest) GetName() string {
+	if x != nil {
+		return x.Name
 	}
 	return ""
 }

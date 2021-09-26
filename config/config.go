@@ -18,11 +18,12 @@ func (c *Config) InitGlobal() error {
 }
 
 type app struct {
-	Name     string `toml:"name" env:"AUTH_APP_NAME"`
-	Host     string `toml:"host" env:"AUTH_APP_HOST"`
-	HttpPort string `toml:"http_port" env:"AUTH_HTTP_PORT"`
-	GrpcPort string `toml:"grpc_port" env:"AUTH_GRPC_PORT"`
-	Key      string `toml:"key" env:"AUTH_APP_KEY"`
+	Name       string `toml:"name" env:"AUTH_APP_NAME"`
+	Host       string `toml:"host" env:"AUTH_APP_HOST"`
+	HttpPort   string `toml:"http_port" env:"AUTH_HTTP_PORT"`
+	HttpPrefix string `toml:"http_prefix" env:"AUTH_HTTP_PREFIX"`
+	GrpcPort   string `toml:"grpc_port" env:"AUTH_GRPC_PORT"`
+	Key        string `toml:"key" env:"AUTH_APP_KEY"`
 }
 
 type log struct {
@@ -37,6 +38,7 @@ func newDefaultApp() *app {
 		Name:     "auth",
 		Host:     "127.0.0.1",
 		HttpPort: "8050",
+		HttpPrefix: "/",
 		GrpcPort: "18050",
 		Key:      "default",
 	}
@@ -53,4 +55,8 @@ func newDefaultLog() *log {
 
 func (a *app) GrpcAddr() string {
 	return a.Host + ":" + a.GrpcPort
+}
+
+func (a *app) HttpAddr() string {
+	return a.Host + ":" + a.HttpPort
 }

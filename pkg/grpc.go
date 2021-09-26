@@ -73,6 +73,7 @@ func InitService() error {
 		if err := s.Config(); err != nil {
 			return err
 		}
+		entrySet.Merge(s.HttpEntry())
 	}
 	return nil
 }
