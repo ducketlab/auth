@@ -20,6 +20,7 @@ const _ = grpc.SupportPackageIsVersion7
 type DomainServiceClient interface {
 	CreateDomain(ctx context.Context, in *CreateDomainRequest, opts ...grpc.CallOption) (*Domain, error)
 	DescribeDomain(ctx context.Context, in *DescribeDomainRequest, opts ...grpc.CallOption) (*Domain, error)
+	QueryDomain(ctx context.Context, in *QueryDomainRequest, opts ...grpc.CallOption) (*Set, error)
 	DeleteDomain(ctx context.Context, in *DeleteDomainRequest, opts ...grpc.CallOption) (*Domain, error)
 }
 
@@ -49,6 +50,15 @@ func (c *domainServiceClient) DescribeDomain(ctx context.Context, in *DescribeDo
 	return out, nil
 }
 
+func (c *domainServiceClient) QueryDomain(ctx context.Context, in *QueryDomainRequest, opts ...grpc.CallOption) (*Set, error) {
+	out := new(Set)
+	err := c.cc.Invoke(ctx, "/auth.domain.DomainService/QueryDomain", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *domainServiceClient) DeleteDomain(ctx context.Context, in *DeleteDomainRequest, opts ...grpc.CallOption) (*Domain, error) {
 	out := new(Domain)
 	err := c.cc.Invoke(ctx, "/auth.domain.DomainService/DeleteDomain", in, out, opts...)
@@ -64,6 +74,7 @@ func (c *domainServiceClient) DeleteDomain(ctx context.Context, in *DeleteDomain
 type DomainServiceServer interface {
 	CreateDomain(context.Context, *CreateDomainRequest) (*Domain, error)
 	DescribeDomain(context.Context, *DescribeDomainRequest) (*Domain, error)
+	QueryDomain(context.Context, *QueryDomainRequest) (*Set, error)
 	DeleteDomain(context.Context, *DeleteDomainRequest) (*Domain, error)
 	mustEmbedUnimplementedDomainServiceServer()
 }
@@ -77,6 +88,9 @@ func (UnimplementedDomainServiceServer) CreateDomain(context.Context, *CreateDom
 }
 func (UnimplementedDomainServiceServer) DescribeDomain(context.Context, *DescribeDomainRequest) (*Domain, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribeDomain not implemented")
+}
+func (UnimplementedDomainServiceServer) QueryDomain(context.Context, *QueryDomainRequest) (*Set, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryDomain not implemented")
 }
 func (UnimplementedDomainServiceServer) DeleteDomain(context.Context, *DeleteDomainRequest) (*Domain, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteDomain not implemented")
@@ -130,6 +144,24 @@ func _DomainService_DescribeDomain_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _DomainService_QueryDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryDomainRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(DomainServiceServer).QueryDomain(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth.domain.DomainService/QueryDomain",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(DomainServiceServer).QueryDomain(ctx, req.(*QueryDomainRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _DomainService_DeleteDomain_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(DeleteDomainRequest)
 	if err := dec(in); err != nil {
@@ -162,6 +194,10 @@ var DomainService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribeDomain",
 			Handler:    _DomainService_DescribeDomain_Handler,
+		},
+		{
+			MethodName: "QueryDomain",
+			Handler:    _DomainService_QueryDomain_Handler,
 		},
 		{
 			MethodName: "DeleteDomain",

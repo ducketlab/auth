@@ -6,7 +6,9 @@ import (
 	"github.com/ducketlab/auth/pkg/domain"
 	"github.com/ducketlab/auth/pkg/token"
 	"github.com/ducketlab/auth/pkg/user"
+	"github.com/rs/xid"
 	"google.golang.org/grpc/metadata"
+	"net/http"
 )
 
 const (
@@ -138,4 +140,35 @@ func (c *GrpcInCtx) InternalCallToken() *token.Token {
 	tk.Account = c.getWithIndex(InternalCallTokenHeader, 0)
 	tk.Domain = c.getWithIndex(InternalCallTokenHeader, 1)
 	return tk
+}
+
+type GrpcOutCtx struct {
+	*grpcCtx
+}
+
+func NewGrpcOutCtx() *GrpcOutCtx {
+	return &GrpcOutCtx{newGrpcCtx(metadata.Pairs())}
+}
+
+func (c *GrpcOutCtx) Context() context.Context {
+	return metadata.NewOutgoingContext(context.Background(), c.md)
+}
+
+func (c *GrpcOutCtx) GetToken() (*token.Token, error) {
+	req := token.NewDescribeTokenRequestWithAccessToken(c.get(OauthTokenHeader))
+	ctx := NewInternalMockGrpcCtx("internal").Context()
+	return Token.DescribeToken(ctx, req)
+}
+
+func NewGrpcOutCtxFromHttpRequest(r *http.Request) (*GrpcOutCtx, error) {
+	rc := NewGrpcOutCtx()
+	rc.SetAccessToken(r.Header.Get(OauthTokenHeader))
+
+	rid := r.Header.Get(RequestIdHeader)
+	if rid == "" {
+		rid = xid.New().String()
+	}
+	rc.SetRequestID(rid)
+
+	return rc, nil
 }

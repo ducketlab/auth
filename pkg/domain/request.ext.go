@@ -17,6 +17,18 @@ func (req *DescribeDomainRequest) Validate() error {
 	return nil
 }
 
+func NewCreateDomainRequest() *CreateDomainRequest {
+	return &CreateDomainRequest{}
+}
+
 func (req *CreateDomainRequest) Validate() error {
 	return validate.Struct(req)
+}
+
+func NewQueryDomainRequest() *QueryDomainRequest {
+	return &QueryDomainRequest{}
+}
+
+func (req *QueryDomainRequest) Validate() error {
+	return nil
 }

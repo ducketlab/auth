@@ -17,6 +17,9 @@ func HttpEntry() *http.EntrySet {
 				Path: "/auth.domain.DomainService/DescribeDomain",
 			},
 			{
+				Path: "/auth.domain.DomainService/QueryDomain",
+			},
+			{
 				Path: "/auth.domain.DomainService/DeleteDomain",
 			},
 		},

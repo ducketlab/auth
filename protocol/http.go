@@ -3,6 +3,7 @@ package protocol
 import (
 	"context"
 	"fmt"
+	"github.com/ducketlab/auth/client"
 	"github.com/ducketlab/auth/config"
 	"github.com/ducketlab/auth/pkg"
 	"github.com/ducketlab/mingo/http/middleware/recovery"
@@ -46,7 +47,11 @@ type HttpService struct {
 
 func (s *HttpService) Start() error {
 
-	if err := pkg.InitHttpApi(s.config.App.HttpPrefix, s.router); err != nil {
+	if err := s.initGrpcClient(); err != nil {
+		return err
+	}
+
+	if err := pkg.InitV1HttpApi(s.config.App.HttpPrefix, s.router); err != nil {
 		return err
 	}
 
@@ -73,4 +78,20 @@ func (s *HttpService) Stop() error {
 	}
 
 	return nil
+}
+
+func (s *HttpService) initGrpcClient() error {
+
+	cf := client.NewDefaultConfig()
+
+	cli, err := client.NewClient(cf)
+
+	cf.SetAddress(s.config.App.GrpcAddr())
+
+	if err != nil {
+		return err
+	}
+	client.SetGlobal(cli)
+
+	return err
 }

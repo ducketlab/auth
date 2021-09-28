@@ -22,14 +22,14 @@ type HttpApi interface {
 	Config() error
 }
 
-func RegistryHttp(name string, api HttpApi) {
+func RegistryV1Http(name string, api HttpApi) {
 	if _, ok := httpAPIs[name]; ok {
 		panic("http api " + name + " has registry")
 	}
 	httpAPIs[name] = api
 }
 
-func InitHttpApi(pathPrefix string, root router.Router) error {
+func InitV1HttpApi(pathPrefix string, root router.Router) error {
 	for _, api := range httpAPIs {
 		if err := api.Config(); err != nil {
 			return err
@@ -39,7 +39,7 @@ func InitHttpApi(pathPrefix string, root router.Router) error {
 			pathPrefix = "/" + pathPrefix
 		}
 
-		api.Registry(root.SubRouter(pathPrefix))
+		api.Registry(root.SubRouter(pathPrefix + "/v1"))
 	}
 
 	return nil

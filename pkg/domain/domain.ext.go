@@ -25,3 +25,13 @@ func New(owner string, req *CreateDomainRequest) (*Domain, error) {
 
 	return d, nil
 }
+
+func NewDomainSet() *Set {
+	return &Set{
+		Items: []*Domain{},
+	}
+}
+
+func (s *Set) Add(d *Domain) {
+	s.Items = append(s.Items, d)
+}

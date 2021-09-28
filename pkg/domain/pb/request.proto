@@ -12,6 +12,15 @@ message CreateDomainRequest {
   ];
 }
 
+message QueryDomainRequest {
+  string name = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"name"'}
+  ];
+  string owner = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"owner"'}
+  ];
+}
+
 message DescribeDomainRequest {
   string name = 1[
     (google.protobuf.field_tag) = {struct_tag: 'bson:"name" json:"name"'}
