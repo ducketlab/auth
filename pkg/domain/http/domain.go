@@ -4,6 +4,7 @@ import (
 	"github.com/ducketlab/auth/pkg"
 	"github.com/ducketlab/auth/pkg/domain"
 	"github.com/ducketlab/auth/version"
+	"github.com/ducketlab/mingo/http/request"
 	"github.com/ducketlab/mingo/http/response"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/metadata"
@@ -39,8 +40,13 @@ func (h *handler) ListDomains(w http.ResponseWriter, r *http.Request) {
 
 
 func (h *handler) CreateDomain(w http.ResponseWriter, r *http.Request) {
+
 	req := domain.NewCreateDomainRequest()
-	req.Name = version.ServiceName
+
+	if err := request.GetDataFromRequest(r, req); err != nil {
+		response.Failed(w, err)
+		return
+	}
 
 	ctx, err := pkg.NewGrpcOutCtxFromHttpRequest(r)
 	if err != nil {

@@ -1,0 +1,89 @@
+syntax = 'proto3';
+
+package auth.user;
+
+option go_package = "github.com/ducketlab/auth/pkg/user";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+import "pkg/user/pb/enum.proto";
+import "pkg/user/pb/types.proto";
+
+message Profile {
+  string real_name = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"real_name" json:"real_name" validate:"lte=10"'}
+  ];
+  string nick_name = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"nick_name" json:"nick_name" validate:"lte=30"'}
+  ];
+  string phone = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"phone" json:"phone" validate:"lte=30"'}
+  ];
+  string email = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"email" json:"email" validate:"lte=30"'}
+  ];
+}
+
+message QueryAccountRequest {
+  repeated string accounts = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"accounts"'}
+  ];
+  UserType user_type = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"user_type"'}
+  ];
+  string namespace_id = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"namespace_id"'}
+  ];
+  bool with_department = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"with_department"'}
+  ];
+  string department_id = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"department_id"'}
+  ];
+  bool with_all_sub = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"with_all_sub"'}
+  ];
+  bool skip_items = 8[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"skip_items"'}
+  ];
+  string keywords = 9[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"keywords"'}
+  ];
+  string domain = 10[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"domain"'}
+  ];
+}
+
+message CreateAccountRequest {
+  CreateType create_type = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"create_type"'}
+  ];
+  UserType user_type = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"user_type"'}
+  ];
+  string department_id = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"department_id" validate:"lte=200"'}
+  ];
+  string account = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"account" validate:"required,lte=60"'}
+  ];
+  int32 expires_days = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"expires_days"'}
+  ];
+  string description = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"description"'}
+  ];
+  Profile profile = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"profile"'}
+  ];
+  string password = 8[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"password" validate:"required,lte=80"'}
+  ];
+}
+
+message DescribeAccountRequest {
+  string account = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"account" validate:"required,lte=60"'}
+  ];
+}
+

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"github.com/ducketlab/auth/pkg/domain"
 	"github.com/ducketlab/auth/pkg/token"
+	"github.com/ducketlab/auth/pkg/user"
 	"github.com/ducketlab/mingo/pb/http"
 	"google.golang.org/grpc"
 )
@@ -13,6 +14,8 @@ var (
 	Token token.TokenServiceServer
 	// Domain service
 	Domain domain.DomainServiceServer
+	// User service
+	User user.UserServiceServer
 )
 
 var (
@@ -41,6 +44,7 @@ func addService(name string, service Service) {
 
 func InitGrpcApi(server *grpc.Server)  {
 	domain.RegisterDomainServiceServer(server, Domain)
+	user.RegisterUserServiceServer(server, User)
 	token.RegisterTokenServiceServer(server, Token)
 }
 
@@ -51,7 +55,12 @@ func RegisterService(name string, svr Service) {
 			registryError(name)
 		}
 		Domain = value
-
+		addService(name, svr)
+	case user.UserServiceServer:
+		if User != nil {
+			registryError(name)
+		}
+		User = value
 		addService(name, svr)
 	case token.TokenServiceServer:
 		if Token != nil {

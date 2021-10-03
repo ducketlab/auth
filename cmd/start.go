@@ -24,8 +24,6 @@ var (
 
 var serviceCmd = &cobra.Command{
 	Use:   "start",
-	Short: "start service",
-	Long:  "start service",
 	RunE: func(cmd *cobra.Command, args []string) error {
 		if err := loadGlobalConfig(confType); err != nil {
 			return err

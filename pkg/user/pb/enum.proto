@@ -1,0 +1,11 @@
+syntax = 'proto3';
+
+package auth.user;
+
+option go_package = "github.com/ducketlab/auth/pkg/user";
+
+enum CreateType {
+  USER_REGISTRY = 0;
+  DOMAIN_CREATED = 1;
+  LDAP_SYNC = 2;
+}

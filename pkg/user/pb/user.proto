@@ -1,0 +1,104 @@
+syntax = 'proto3';
+
+package auth.user;
+
+option go_package = "github.com/ducketlab/auth/pkg/user";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+import "pkg/user/pb/enum.proto";
+import "pkg/user/pb/types.proto";
+import "pkg/user/pb/request.proto";
+
+message Password {
+  string password = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"password" json:"password,omitempty"'}
+  ];
+  int64 create_at = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at,omitempty"'}
+  ];
+  int64 update_at = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"update_at" json:"update_at,omitempty"'}
+  ];
+  bool need_reset = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"need_reset" json:"need_reset"'}
+  ];
+  string reset_reason = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"reset_reason" json:"reset_reason"'}
+  ];
+  repeated string history = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"history" json:"history,omitempty"'}
+  ];
+  bool is_expired = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"-" json:"is_expired"'}
+  ];
+}
+
+message Status {
+  bool locked = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"locked" json:"locked"'}
+  ];
+  int64 locked_time = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"locked_time" json:"locked_time,omitempty"'}
+  ];
+  string locked_reason = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"locked_reason" json:"locked_reason,omitempty"'}
+  ];
+  int64 unlock_time = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"unlock_time" json:"unlock_time,omitempty"'}
+  ];
+}
+
+message User {
+  string department_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"department_id" json:"department_id" validate:"lte=200"'}
+  ];
+  string account = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"_id" json:"account" validate:"required,lte=60"'}
+  ];
+  CreateType create_type = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_type" json:"create_type"'}
+  ];
+  int64 create_at = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at,omitempty"'}
+  ];
+  int64 update_at = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"update_at" json:"update_at,omitempty"'}
+  ];
+  string domain = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"domain" json:"domain,omitempty"'}
+  ];
+  UserType type = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"type"  json:"type"'}
+  ];
+  Profile profile = 8[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"profile" json:"profile"'}
+  ];
+  repeated string roles = 9[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"-" json:"roles,omitempty"'}
+  ];
+  int32 expires_days = 10[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"expires_days" json:"expires_days"'}
+  ];
+  string description = 11[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"description"'}
+  ];
+  bool is_initialized = 12[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"is_initialized" json:"is_initialized"'}
+  ];
+  Password hashed_password = 13[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"password" json:"password"'}
+  ];
+  Status status = 14[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"status" json:"status"'}
+  ];
+}
+
+message Set {
+  int64 total = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"total" json:"total"'}
+  ];
+  repeated User items = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"items" json:"items"'}
+  ];
+}

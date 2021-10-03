@@ -26,6 +26,10 @@ func New(owner string, req *CreateDomainRequest) (*Domain, error) {
 	return d, nil
 }
 
+func NewDefault() *Domain  {
+	return &Domain{}
+}
+
 func NewDomainSet() *Set {
 	return &Set{
 		Items: []*Domain{},

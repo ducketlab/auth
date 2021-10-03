@@ -1,0 +1,14 @@
+syntax = 'proto3';
+
+package auth.user;
+
+option go_package = "github.com/ducketlab/auth/pkg/user";
+
+import "pkg/user/pb/user.proto";
+import "pkg/user/pb/request.proto";
+
+service UserService {
+  rpc QueryAccount(QueryAccountRequest) returns(Set);
+  rpc DescribeAccount(DescribeAccountRequest) returns(User);
+  rpc CreateAccount(CreateAccountRequest) returns(User);
+}

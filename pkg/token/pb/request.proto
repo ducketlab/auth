@@ -4,6 +4,10 @@ package auth.token;
 
 option go_package = "github.com/ducketlab/auth/pkg/token";
 
+import "pkg/token/pb/token.proto";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
 message ValidateTokenRequest {
   string namespace_id = 1;
 }
@@ -11,4 +15,32 @@ message ValidateTokenRequest {
 message DescribeTokenRequest {
   string access_token = 1;
   string refresh_token = 2;
+}
+
+message ChangeNamespaceRequest {
+  string namespace = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"namespace" validate:"required"'}
+  ];
+  string token = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"token" validate:"required"'}
+  ];
+}
+
+message IssueTokenRequest {
+  string client_id = 1;
+  string client_secret =2;
+  string verify_code = 3;
+  string username = 4;
+  string password = 5;
+  string refresh_token = 6;
+  string access_token = 7;
+  string auth_code = 8;
+  string state = 9;
+  GrantType grant_type = 10;
+  TokenType type = 11;
+  int64 access_expired_at = 12;
+  string description = 13;
+  string scope = 14;
+  string user_agent = 15;
+  string remote_ip = 16;
 }

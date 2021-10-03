@@ -6,8 +6,37 @@ option go_package = "github.com/ducketlab/auth/pkg/token";
 
 import "pkg/token/pb/token.proto";
 import "pkg/token/pb/request.proto";
+import "github.com/ducketlab/mingo/pb/http/entry.proto";
 
 service TokenService {
-  rpc ValidateToken(ValidateTokenRequest) returns (Token);
-  rpc DescribeToken(DescribeTokenRequest) returns (Token);
+  rpc IssueToken(IssueTokenRequest) returns (Token) {
+    option(mingo.http.rest_api) = {
+      path: "/oauth2/tokens",
+      method: "POST",
+      resource: "token"
+    };
+  };
+  rpc ValidateToken(ValidateTokenRequest) returns (Token) {
+    option(mingo.http.rest_api) = {
+      path: "/oauth2/tokens",
+      method: "GET",
+      resource: "token"
+    };
+  };
+  rpc DescribeToken(DescribeTokenRequest) returns (Token) {
+    option (mingo.http.rest_api) = {
+      path: "/applications/:id/tokens"
+      method: "GET"
+      resource: "token"
+      auth_enable: true
+    };
+  };
+  rpc ChangeNamespace(ChangeNamespaceRequest) returns (Token) {
+    option (mingo.http.rest_api) = {
+      path: "/applications/:id/tokens"
+      method: "PUT"
+      resource: "token"
+      auth_enable: true
+    };
+  };
 }

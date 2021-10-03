@@ -11,10 +11,40 @@ func HttpEntry() *http.EntrySet {
 	set := &http.EntrySet{
 		Items: []*http.Entry{
 			{
-				Path: "/auth.token.TokenService/ValidateToken",
+				Path:             "/auth.token.TokenService/IssueToken",
+				Method:           "POST",
+				Resource:         "token",
+				AuthEnable:       false,
+				PermissionEnable: false,
+				Labels:           map[string]string{},
+				Extension:        map[string]string{},
 			},
 			{
-				Path: "/auth.token.TokenService/DescribeToken",
+				Path:             "/auth.token.TokenService/ValidateToken",
+				Method:           "GET",
+				Resource:         "token",
+				AuthEnable:       false,
+				PermissionEnable: false,
+				Labels:           map[string]string{},
+				Extension:        map[string]string{},
+			},
+			{
+				Path:             "/auth.token.TokenService/DescribeToken",
+				Method:           "GET",
+				Resource:         "token",
+				AuthEnable:       true,
+				PermissionEnable: false,
+				Labels:           map[string]string{},
+				Extension:        map[string]string{},
+			},
+			{
+				Path:             "/auth.token.TokenService/ChangeNamespace",
+				Method:           "PUT",
+				Resource:         "token",
+				AuthEnable:       true,
+				PermissionEnable: false,
+				Labels:           map[string]string{},
+				Extension:        map[string]string{},
 			},
 		},
 	}
