@@ -1,0 +1,15 @@
+syntax = 'proto3';
+
+package auth.namespace;
+
+option go_package = "github.com/ducketlab/auth/pkg/namespace";
+
+import "pkg/namespace/pb/namespace.proto";
+import "pkg/namespace/pb/request.proto";
+
+service NamespaceService {
+  rpc CreateNamespace(CreateNamespaceRequest) returns(Namespace);
+  rpc QueryNamespace(QueryNamespaceRequest) returns(Set);
+  rpc DescribeNamespace(DescribeNamespaceRequest) returns(Namespace);
+  rpc DeleteNamespace(DeleteNamespaceRequest) returns(Namespace);
+}

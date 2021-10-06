@@ -2,7 +2,9 @@ package client
 
 import (
 	"github.com/ducketlab/auth/pkg/domain"
+	"github.com/ducketlab/auth/pkg/namespace"
 	"github.com/ducketlab/auth/pkg/token"
+	"github.com/ducketlab/auth/pkg/user"
 	"github.com/ducketlab/mingo/logger"
 	"github.com/ducketlab/mingo/logger/zap"
 	"google.golang.org/grpc"
@@ -53,4 +55,12 @@ func (c *Client) Domain() domain.DomainServiceClient {
 
 func (c *Client) Token() token.TokenServiceClient {
 	return token.NewTokenServiceClient(c.connection)
+}
+
+func (c *Client) Namespace() namespace.NamespaceServiceClient {
+	return namespace.NewNamespaceServiceClient(c.connection)
+}
+
+func (c *Client) User() user.UserServiceClient {
+	return user.NewUserServiceClient(c.connection)
 }

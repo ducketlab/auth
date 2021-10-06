@@ -1,0 +1,55 @@
+syntax = 'proto3';
+
+package auth.namespace;
+
+option go_package = "github.com/ducketlab/auth/pkg/namespace";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+message CreateNamespaceRequest {
+  string name = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"name" validate:"required,lte=80"'}
+  ];
+  string picture =3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"picture,omitempty"'}
+  ];
+  string owner = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"owner,omitempty"'}
+  ];
+  string description = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"description,omitempty"'}
+  ];
+  string domain = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"domain"'}
+  ];
+  string create_by = 8[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"create_by"'}
+  ];
+}
+
+message QueryNamespaceRequest {
+  string name = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"name"'}
+  ];
+  string account = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"account"'}
+  ];
+  string domain = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"domain"'}
+  ];
+}
+
+message DescribeNamespaceRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+}
+
+message DeleteNamespaceRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+  string domain = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"domain"'}
+  ];
+}

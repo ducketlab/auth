@@ -1,0 +1,57 @@
+syntax = 'proto3';
+
+package auth.namespace;
+
+option go_package = "github.com/ducketlab/auth/pkg/namespace";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+enum Visible {
+  PRIVATE = 0;
+  PUBLIC = 1;
+}
+
+message Namespace {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"_id" json:"id"'}
+  ];
+  string domain = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"domain" json:"domain"'}
+  ];
+  string create_by = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_by" json:"create_by"'}
+  ];
+  int64 create_at = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at"'}
+  ];
+  int64 update_at = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"update_at" json:"update_at"'}
+  ];
+  bool enabled = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"enabled" json:"enabled"'}
+  ];
+  string name = 8[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"name" json:"name"'}
+  ];
+  string picture =9[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"picture" json:"picture"'}
+  ];
+  string owner = 10[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"owner" json:"owner"'}
+  ];
+  string description = 11[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"description" json:"description"'}
+  ];
+  Visible visible = 13[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"visible" json:"visible"'}
+  ];
+}
+
+message Set {
+  int64 total = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"total" json:"total"'}
+  ];
+  repeated Namespace items = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"items" json:"items"'}
+  ];
+}

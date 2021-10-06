@@ -3,6 +3,7 @@ package pkg
 import (
 	"fmt"
 	"github.com/ducketlab/auth/pkg/domain"
+	"github.com/ducketlab/auth/pkg/namespace"
 	"github.com/ducketlab/auth/pkg/token"
 	"github.com/ducketlab/auth/pkg/user"
 	"github.com/ducketlab/mingo/pb/http"
@@ -16,6 +17,8 @@ var (
 	Domain domain.DomainServiceServer
 	// User service
 	User user.UserServiceServer
+	// Namespace service
+	Namespace namespace.NamespaceServiceServer
 )
 
 var (
@@ -46,6 +49,7 @@ func InitGrpcApi(server *grpc.Server)  {
 	domain.RegisterDomainServiceServer(server, Domain)
 	user.RegisterUserServiceServer(server, User)
 	token.RegisterTokenServiceServer(server, Token)
+	namespace.RegisterNamespaceServiceServer(server, Namespace)
 }
 
 func RegisterService(name string, svr Service) {
@@ -67,6 +71,12 @@ func RegisterService(name string, svr Service) {
 			registryError(name)
 		}
 		Token = value
+		addService(name, svr)
+	case namespace.NamespaceServiceServer:
+		if Namespace != nil {
+			registryError(name)
+		}
+		Namespace = value
 		addService(name, svr)
 	default:
 		panic(fmt.Sprintf("unknown service type %s", name))
