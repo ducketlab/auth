@@ -1,0 +1,61 @@
+syntax = 'proto3';
+
+package auth.endpoint;
+
+option go_package = "github.com/ducketlab/auth/pkg/endpoint";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+import "github.com/ducketlab/mingo/pb/http/entry.proto";
+
+import "pkg/endpoint/pb/enum.proto";
+
+message RegistryRequest {
+  string version = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"version" validate:"required,lte=32"'}
+  ];
+  repeated mingo.http.Entry entries = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"entries"'}
+  ];
+}
+
+message RegistryResponse {
+  string message = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"message"'}
+  ];
+}
+
+message DescribeEndpointRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+}
+
+message QueryEndpointRequest {
+  repeated string service_ids = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"service_ids"'}
+  ];
+  string path = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"path"'}
+  ];
+  string method = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"method"'}
+  ];
+  string function_name = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"function_name"'}
+  ];
+  repeated string resources = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"resources"'}
+  ];
+  map<string, string> labels = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"labels"'}
+  ];
+  BoolQuery permission_enable = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"permission_enable"'}
+  ];
+}
+
+message DeleteEndpointRequest {
+  string service_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"service_id"'}
+  ];
+}

@@ -1,0 +1,69 @@
+syntax = 'proto3';
+
+package auth.role;
+
+option go_package = "github.com/ducketlab/auth/pkg/role";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+import "pkg/role/pb/enum.proto";
+
+message CreateRoleRequest {
+  RoleType type = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"type" json:"type"'}
+  ];
+  string name = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"name" json:"name" validate:"required,lte=30"'}
+  ];
+  string description =3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"description" json:"description" validate:"lte=400"'}
+  ];
+  map<string,string> meta =4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"meta" json:"meta" validate:"lte=400"'}
+  ];
+  repeated CreatePermissionRequest permissions = 9[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"permissions" json:"permissions"'}
+  ];
+}
+
+message CreatePermissionRequest {
+  EffectType effect = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"effect" json:"effect"'}
+  ];
+  string service_id = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"service_id" json:"service_id"'}
+  ];
+  string resource_name = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"resource_name" json:"resource_name"'}
+  ];
+  string label_key = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"label_key" json:"label_key"'}
+  ];
+  bool match_all = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"match_all" json:"match_all"'}
+  ];
+  repeated string label_values = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"label_values" json:"label_values"'}
+  ];
+}
+
+message DescribeRoleRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+  string name = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"name,omitempty" validate:"required,lte=64"'}
+  ];
+  bool with_permissions = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"with_permissions" json:"with_permissions"'}
+  ];
+  RoleType type = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"type" json:"type"'}
+  ];
+}
+
+message DescribePermissionRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+}

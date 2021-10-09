@@ -1,0 +1,17 @@
+syntax = 'proto3';
+
+package auth.role;
+
+option go_package = "github.com/ducketlab/auth/pkg/role";
+
+enum RoleType {
+  NULL = 0;
+  BUILDIN = 1;
+  GLOBAL = 2;
+  CUSTOM = 3;
+}
+
+enum EffectType {
+  ALLOW = 0;
+  DENY = 1;
+}

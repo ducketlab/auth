@@ -1,0 +1,14 @@
+syntax = 'proto3';
+
+package auth.role;
+
+option go_package = "github.com/ducketlab/auth/pkg/role";
+
+import "pkg/role/pb/request.proto";
+import "pkg/role/pb/role.proto";
+
+service RoleService {
+  rpc CreateRole(CreateRoleRequest) returns(Role);
+  rpc DescribeRole(DescribeRoleRequest) returns(Role);
+  rpc DescribePermission(DescribePermissionRequest) returns(Permission);
+}

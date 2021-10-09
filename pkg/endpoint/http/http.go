@@ -4,7 +4,7 @@ import (
 	"errors"
 	"github.com/ducketlab/auth/client"
 	"github.com/ducketlab/auth/pkg"
-	"github.com/ducketlab/auth/pkg/micro"
+	"github.com/ducketlab/auth/pkg/endpoint"
 	"github.com/ducketlab/mingo/http/router"
 )
 
@@ -13,15 +13,15 @@ var (
 )
 
 type handler struct {
-	service micro.MicroServiceClient
+	endpoint endpoint.EndpointServiceClient
 }
 
 func (h *handler) Registry(router router.SubRouter) {
-	r := router.ResourceRouter("service")
-	r.BasePath("services")
+	r := router.ResourceRouter("endpoint")
 
-	r.Handle("POST", "/", h.CreateService)
-	r.Handle("GET", "/:id", h.GetService)
+	r.BasePath("endpoints")
+	r.Handle("POST", "/", h.Create)
+	r.Handle("GET", "/:id", h.Get)
 }
 
 func (h *handler) Config() error {
@@ -30,10 +30,10 @@ func (h *handler) Config() error {
 		return errors.New("grpc client not initial")
 	}
 
-	h.service = client.Micro()
+	h.endpoint = client.Endpoint()
 	return nil
 }
 
 func init() {
-	pkg.RegistryV1Http("service", api)
+	pkg.RegistryV1Http("endpoint", api)
 }

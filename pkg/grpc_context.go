@@ -160,6 +160,18 @@ func (c *GrpcOutCtx) GetToken() (*token.Token, error) {
 	return Token.DescribeToken(ctx, req)
 }
 
+func NewGrpcInCtxFromHttpRequest(r *http.Request) (*GrpcInCtx, error) {
+	rc := NewGrpcInCtx()
+	rc.SetAccessToken(r.Header.Get(OauthTokenHeader))
+	rid := r.Header.Get(RequestIdHeader)
+	if rid == "" {
+		rid = xid.New().String()
+	}
+	rc.SetRequestID(rid)
+
+	return rc, nil
+}
+
 func NewGrpcOutCtxFromHttpRequest(r *http.Request) (*GrpcOutCtx, error) {
 	rc := NewGrpcOutCtx()
 	rc.SetAccessToken(r.Header.Get(OauthTokenHeader))
@@ -171,4 +183,9 @@ func NewGrpcOutCtxFromHttpRequest(r *http.Request) (*GrpcOutCtx, error) {
 	rc.SetRequestID(rid)
 
 	return rc, nil
+}
+
+func GetClientCredentialsFromHttpRequest(r *http.Request) (cid, cs string) {
+	cid, cs = r.Header.Get(ClientIdHeader), r.Header.Get(ClientSecretHeader)
+	return
 }

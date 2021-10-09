@@ -2,6 +2,7 @@ package client
 
 import (
 	"github.com/ducketlab/auth/pkg/domain"
+	"github.com/ducketlab/auth/pkg/endpoint"
 	"github.com/ducketlab/auth/pkg/micro"
 	"github.com/ducketlab/auth/pkg/namespace"
 	"github.com/ducketlab/auth/pkg/token"
@@ -68,4 +69,8 @@ func (c *Client) User() user.UserServiceClient {
 
 func (c *Client) Micro() micro.MicroServiceClient {
 	return micro.NewMicroServiceClient(c.connection)
+}
+
+func (c *Client) Endpoint() endpoint.EndpointServiceClient {
+	return endpoint.NewEndpointServiceClient(c.connection)
 }

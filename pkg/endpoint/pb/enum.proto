@@ -1,0 +1,11 @@
+syntax = 'proto3';
+
+package auth.endpoint;
+
+option go_package = "github.com/ducketlab/auth/pkg/endpoint";
+
+enum BoolQuery {
+  ALL = 0;
+  TRUE = 1;
+  FALSE = 2;
+}

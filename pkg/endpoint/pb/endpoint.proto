@@ -1,0 +1,38 @@
+syntax = 'proto3';
+
+package auth.endpoint;
+
+option go_package = "github.com/ducketlab/auth/pkg/endpoint";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+import "github.com/ducketlab/mingo/pb/http/entry.proto";
+
+message Endpoint {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"_id" json:"id" validate:"required,lte=64"'}
+  ];
+  int64 create_at = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at,omitempty"'}
+  ];
+  int64 update_at = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"update_at" json:"update_at,omitempty"'}
+  ];
+  string service_id= 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"service_id" json:"service_id,omitempty" validate:"required,lte=64"'}
+  ];
+  string version = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"version" json:"version,omitempty" validate:"required,lte=64"'}
+  ];
+  mingo.http.Entry entry = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"entry" json:"entry" validate:"required"'}
+  ];
+}
+
+message Set {
+  int64 total = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"total" json:"total"'}
+  ];
+  repeated Endpoint items = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"items" json:"items"'}
+  ];
+}
