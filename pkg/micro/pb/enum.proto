@@ -1,0 +1,11 @@
+syntax = 'proto3';
+
+package auth.micro;
+
+option go_package = "github.com/ducketlab/auth/pkg/micro";
+
+enum Type {
+  NULL = 0;
+  CUSTOM = 1;
+  BUILD_IN = 2;
+}

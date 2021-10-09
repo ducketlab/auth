@@ -1,0 +1,17 @@
+syntax = 'proto3';
+
+package auth.micro;
+
+option go_package = "github.com/ducketlab/auth/pkg/micro";
+
+import "pkg/micro/pb/micro.proto";
+import "pkg/micro/pb/request.proto";
+
+service MicroService {
+  rpc ValidateClientCredential(ValidateClientCredentialRequest) returns(Micro);
+  rpc CreateService(CreateMicroRequest) returns(Micro);
+  rpc QueryService(QueryMicroRequest) returns(Set);
+  rpc DescribeService(DescribeMicroRequest) returns(Micro);
+  rpc DeleteService(DeleteMicroRequest) returns(Micro);
+  rpc RefreshServiceClientSecret(DescribeMicroRequest) returns(Micro);
+}

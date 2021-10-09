@@ -2,6 +2,7 @@ package client
 
 import (
 	"github.com/ducketlab/auth/pkg/domain"
+	"github.com/ducketlab/auth/pkg/micro"
 	"github.com/ducketlab/auth/pkg/namespace"
 	"github.com/ducketlab/auth/pkg/token"
 	"github.com/ducketlab/auth/pkg/user"
@@ -63,4 +64,8 @@ func (c *Client) Namespace() namespace.NamespaceServiceClient {
 
 func (c *Client) User() user.UserServiceClient {
 	return user.NewUserServiceClient(c.connection)
+}
+
+func (c *Client) Micro() micro.MicroServiceClient {
+	return micro.NewMicroServiceClient(c.connection)
 }

@@ -1,0 +1,66 @@
+syntax = 'proto3';
+
+package auth.micro;
+
+option go_package = "github.com/ducketlab/auth/pkg/micro";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+import "pkg/micro/pb/enum.proto";
+
+message Micro {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"_id" json:"id"'}
+  ];
+  string domain = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"domain" json:"domain"'}
+  ];
+  string creater = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"creater" json:"creater"'}
+  ];
+  int64 create_at = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"create_at" json:"create_at,omitempty"'}
+  ];
+  int64 update_at = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"update_at" json:"update_at,omitempty"'}
+  ];
+  string account = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"account" json:"account"'}
+  ];
+  string client_id = 7[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"client_id" json:"client_id"'}
+  ];
+  string client_secret = 8[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"client_secret" json:"client_secret"'}
+  ];
+  bool client_enabled = 9 [
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"client_enabled" json:"client_enabled"'}
+  ];
+  int64 client_refresh_at = 10 [
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"client_refresh_at" json:"client_refresh_at"'}
+  ];
+  bool enabled = 11[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"enabled" json:"enabled"'}
+  ];
+  Type type = 12[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"type" json:"type"'}
+  ];
+  string name = 13[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"name" json:"name"'}
+  ];
+  map<string, string> label = 14[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"label" json:"label"'}
+  ];
+  string description = 15[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"description" json:"description,omitempty"'}
+  ];
+}
+
+message Set {
+  int64 total = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"total" json:"total"'}
+  ];
+  repeated Micro items = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"items" json:"items"'}
+  ];
+}

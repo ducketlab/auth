@@ -1,0 +1,57 @@
+syntax = 'proto3';
+
+package auth.micro;
+
+option go_package = "github.com/ducketlab/auth/pkg/micro";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+import "pkg/micro/pb/enum.proto";
+
+message ValidateClientCredentialRequest {
+  string client_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"client_id" validate:"required,lte=100"'}
+  ];
+  string client_secret = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"client_secret" validate:"required,lte=100"'}
+  ];
+}
+
+message CreateMicroRequest {
+  Type type = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"type" json:"type"'}
+  ];
+  string name = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"name" json:"name" validate:"required,lte=200"'}
+  ];
+  map<string, string> label = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"label" json:"label" validate:"lte=80"'}
+  ];
+  string description = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"description" json:"description,omitempty"'}
+  ];
+}
+
+message QueryMicroRequest {
+  Type type = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"type"'}
+  ];
+}
+
+message DescribeMicroRequest {
+  string client_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"client_id"'}
+  ];
+  string name = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"name"'}
+  ];
+  string id = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+}
+
+message DeleteMicroRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+}
