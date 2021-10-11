@@ -77,7 +77,7 @@ func (c *GrpcInCtx) GetClientSecret() string {
 	return c.get(ClientSecretHeader)
 }
 
-func (c *GrpcInCtx) GetAccessToKen() string {
+func (c *GrpcInCtx) GetAccessToken() string {
 	return c.get(OauthTokenHeader)
 }
 
@@ -109,7 +109,7 @@ func (c *GrpcInCtx) ClearInternal() *GrpcInCtx {
 }
 
 func (c *GrpcInCtx) GetToken() (*token.Token, error) {
-	req := token.NewDescribeTokenRequestWithAccessToken(c.GetAccessToKen())
+	req := token.NewDescribeTokenRequestWithAccessToken(c.GetAccessToken())
 	ctx := NewInternalMockGrpcCtx("internal").Context()
 	return Token.DescribeToken(ctx, req)
 }

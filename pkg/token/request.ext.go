@@ -47,6 +47,29 @@ func (m *DescribeTokenRequest) Validate() error {
 	return nil
 }
 
+func NewValidateTokenRequest() *ValidateTokenRequest {
+	return &ValidateTokenRequest{}
+}
+
+func (m *ValidateTokenRequest) MakeDescribeTokenRequest() *DescribeTokenRequest {
+	req := NewDescribeTokenRequest()
+	req.AccessToken = m.AccessToken
+	req.RefreshToken = m.RefreshToken
+	return req
+}
+
+func (m *ValidateTokenRequest) Validate() error {
+	if err := validate.Struct(m); err != nil {
+		return err
+	}
+
+	if m.AccessToken == "" && m.RefreshToken == "" {
+		return errors.New("access_token and refresh_token required one")
+	}
+
+	return nil
+}
+
 func (m *IssueTokenRequest) Validate() error {
 	if err := validate.Struct(m); err != nil {
 		return err

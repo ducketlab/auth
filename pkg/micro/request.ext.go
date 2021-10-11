@@ -23,3 +23,10 @@ func NewDescribeServiceRequestWithClientId(clientId string) *DescribeMicroReques
 	req.ClientId = clientId
 	return req
 }
+
+func NewValidateClientCredentialRequest(clientID, clientSecret string) *ValidateClientCredentialRequest {
+	return &ValidateClientCredentialRequest{
+		ClientId:     clientID,
+		ClientSecret: clientSecret,
+	}
+}

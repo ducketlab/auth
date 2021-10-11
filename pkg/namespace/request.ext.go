@@ -34,3 +34,9 @@ func (req *DescribeNamespaceRequest) Validate() error {
 
 	return nil
 }
+
+func NewNewDescribeNamespaceRequestWithId(id string) *DescribeNamespaceRequest {
+	req := NewDescribeNamespaceRequest()
+	req.Id = id
+	return req
+}

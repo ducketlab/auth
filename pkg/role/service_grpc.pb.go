@@ -21,6 +21,8 @@ type RoleServiceClient interface {
 	CreateRole(ctx context.Context, in *CreateRoleRequest, opts ...grpc.CallOption) (*Role, error)
 	DescribeRole(ctx context.Context, in *DescribeRoleRequest, opts ...grpc.CallOption) (*Role, error)
 	DescribePermission(ctx context.Context, in *DescribePermissionRequest, opts ...grpc.CallOption) (*Permission, error)
+	QueryPermission(ctx context.Context, in *QueryPermissionRequest, opts ...grpc.CallOption) (*PermissionSet, error)
+	AddPermissionToRole(ctx context.Context, in *AddPermissionToRoleRequest, opts ...grpc.CallOption) (*PermissionSet, error)
 }
 
 type roleServiceClient struct {
@@ -58,6 +60,24 @@ func (c *roleServiceClient) DescribePermission(ctx context.Context, in *Describe
 	return out, nil
 }
 
+func (c *roleServiceClient) QueryPermission(ctx context.Context, in *QueryPermissionRequest, opts ...grpc.CallOption) (*PermissionSet, error) {
+	out := new(PermissionSet)
+	err := c.cc.Invoke(ctx, "/auth.role.RoleService/QueryPermission", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *roleServiceClient) AddPermissionToRole(ctx context.Context, in *AddPermissionToRoleRequest, opts ...grpc.CallOption) (*PermissionSet, error) {
+	out := new(PermissionSet)
+	err := c.cc.Invoke(ctx, "/auth.role.RoleService/AddPermissionToRole", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RoleServiceServer is the server API for RoleService service.
 // All implementations must embed UnimplementedRoleServiceServer
 // for forward compatibility
@@ -65,6 +85,8 @@ type RoleServiceServer interface {
 	CreateRole(context.Context, *CreateRoleRequest) (*Role, error)
 	DescribeRole(context.Context, *DescribeRoleRequest) (*Role, error)
 	DescribePermission(context.Context, *DescribePermissionRequest) (*Permission, error)
+	QueryPermission(context.Context, *QueryPermissionRequest) (*PermissionSet, error)
+	AddPermissionToRole(context.Context, *AddPermissionToRoleRequest) (*PermissionSet, error)
 	mustEmbedUnimplementedRoleServiceServer()
 }
 
@@ -80,6 +102,12 @@ func (UnimplementedRoleServiceServer) DescribeRole(context.Context, *DescribeRol
 }
 func (UnimplementedRoleServiceServer) DescribePermission(context.Context, *DescribePermissionRequest) (*Permission, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DescribePermission not implemented")
+}
+func (UnimplementedRoleServiceServer) QueryPermission(context.Context, *QueryPermissionRequest) (*PermissionSet, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method QueryPermission not implemented")
+}
+func (UnimplementedRoleServiceServer) AddPermissionToRole(context.Context, *AddPermissionToRoleRequest) (*PermissionSet, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddPermissionToRole not implemented")
 }
 func (UnimplementedRoleServiceServer) mustEmbedUnimplementedRoleServiceServer() {}
 
@@ -148,6 +176,42 @@ func _RoleService_DescribePermission_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RoleService_QueryPermission_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryPermissionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServiceServer).QueryPermission(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth.role.RoleService/QueryPermission",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServiceServer).QueryPermission(ctx, req.(*QueryPermissionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _RoleService_AddPermissionToRole_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddPermissionToRoleRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RoleServiceServer).AddPermissionToRole(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/auth.role.RoleService/AddPermissionToRole",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RoleServiceServer).AddPermissionToRole(ctx, req.(*AddPermissionToRoleRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RoleService_ServiceDesc is the grpc.ServiceDesc for RoleService service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -166,6 +230,14 @@ var RoleService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DescribePermission",
 			Handler:    _RoleService_DescribePermission_Handler,
+		},
+		{
+			MethodName: "QueryPermission",
+			Handler:    _RoleService_QueryPermission_Handler,
+		},
+		{
+			MethodName: "AddPermissionToRole",
+			Handler:    _RoleService_AddPermissionToRole_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

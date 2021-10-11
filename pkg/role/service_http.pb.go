@@ -19,6 +19,12 @@ func HttpEntry() *http.EntrySet {
 			{
 				Path: "/auth.role.RoleService/DescribePermission",
 			},
+			{
+				Path: "/auth.role.RoleService/QueryPermission",
+			},
+			{
+				Path: "/auth.role.RoleService/AddPermissionToRole",
+			},
 		},
 	}
 	return set

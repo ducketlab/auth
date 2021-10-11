@@ -11,4 +11,6 @@ service RoleService {
   rpc CreateRole(CreateRoleRequest) returns(Role);
   rpc DescribeRole(DescribeRoleRequest) returns(Role);
   rpc DescribePermission(DescribePermissionRequest) returns(Permission);
+  rpc QueryPermission(QueryPermissionRequest) returns(PermissionSet);
+  rpc AddPermissionToRole(AddPermissionToRoleRequest) returns(PermissionSet);
 }

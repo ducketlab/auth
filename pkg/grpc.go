@@ -6,6 +6,8 @@ import (
 	"github.com/ducketlab/auth/pkg/endpoint"
 	"github.com/ducketlab/auth/pkg/micro"
 	"github.com/ducketlab/auth/pkg/namespace"
+	"github.com/ducketlab/auth/pkg/policy"
+	"github.com/ducketlab/auth/pkg/role"
 	"github.com/ducketlab/auth/pkg/token"
 	"github.com/ducketlab/auth/pkg/user"
 	"github.com/ducketlab/mingo/pb/http"
@@ -25,6 +27,10 @@ var (
 	Micro micro.MicroServiceServer
 	// Endpoint service
 	Endpoint endpoint.EndpointServiceServer
+	// Role service
+	Role role.RoleServiceServer
+	// Policy service
+	Policy policy.PolicyServiceServer
 )
 
 var (
@@ -40,6 +46,17 @@ type Service interface {
 
 func HttpEntry() *http.EntrySet {
 	return entrySet
+}
+
+func GetPathEntry(path string) *http.Entry {
+	es := HttpEntry()
+	for i := range es.Items {
+		if es.Items[i].Path == path {
+			return es.Items[i]
+		}
+	}
+
+	return nil
 }
 
 func LoadedService() []string {
@@ -58,6 +75,8 @@ func InitGrpcApi(server *grpc.Server)  {
 	namespace.RegisterNamespaceServiceServer(server, Namespace)
 	micro.RegisterMicroServiceServer(server, Micro)
 	endpoint.RegisterEndpointServiceServer(server, Endpoint)
+	role.RegisterRoleServiceServer(server, Role)
+	policy.RegisterPolicyServiceServer(server, Policy)
 }
 
 func RegisterService(name string, svr Service) {
@@ -97,6 +116,18 @@ func RegisterService(name string, svr Service) {
 			registryError(name)
 		}
 		Endpoint = value
+		addService(name, svr)
+	case role.RoleServiceServer:
+		if Role != nil {
+			registryError(name)
+		}
+		Role = value
+		addService(name, svr)
+	case policy.PolicyServiceServer:
+		if Policy != nil {
+			registryError(name)
+		}
+		Policy = value
 		addService(name, svr)
 	default:
 		panic(fmt.Sprintf("unknown service type %s", name))

@@ -67,3 +67,22 @@ message DescribePermissionRequest {
     (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
   ];
 }
+
+message AddPermissionToRoleRequest {
+  string role_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"role_id" validate:"required,lte=64"'}
+  ];
+  repeated CreatePermissionRequest permissions = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"permissions" validate:"required"'}
+  ];
+}
+
+message QueryPermissionRequest {
+  string role_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"role_id" validate:"required,lte=64"'}
+  ];
+  bool skip_itmes = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"skip_itmes"'}
+  ];
+}
+

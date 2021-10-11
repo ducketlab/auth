@@ -1,0 +1,57 @@
+syntax = 'proto3';
+
+package auth.policy;
+
+option go_package = "github.com/ducketlab/auth/pkg/policy";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+import "pkg/policy/pb/enum.proto";
+
+message CreatePolicyRequest {
+  string namespace_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"namespace_id" json:"namespace_id" validate:"lte=120"'}
+  ];
+  string account = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"account" json:"account" validate:"required,lte=120"'}
+  ];
+  string role_id = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"role_id" json:"role_id" validate:"required,lte=40"'}
+  ];
+  string scope = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"scope" json:"scope"'}
+  ];
+  int64 expired_time = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"expired_time" json:"expired_time"'}
+  ];
+  PolicyType type = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'bson:"type" json:"type"'}
+  ];
+}
+
+message DescribePolicyRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+}
+
+message DeletePolicyRequest {
+  string id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"id"'}
+  ];
+  string account = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"account,omitempty"'}
+  ];
+  string role_id = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"role_id,omitempty"'}
+  ];
+  string namespace_id = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"namespace_id,omitempty"'}
+  ];
+  PolicyType type = 5[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"type,omitempty"'}
+  ];
+  string domain = 6[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"domain"'}
+  ];
+}

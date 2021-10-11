@@ -12,5 +12,4 @@ enum UserType {
   DOMAIN_ADMIN = 4;
   ORG_ADMIN = 5;
   PERM_ADMIN = 6;
-  AUDIT_ADMIN = 7;
 }

@@ -5,6 +5,8 @@ import (
 	"github.com/ducketlab/auth/pkg/endpoint"
 	"github.com/ducketlab/auth/pkg/micro"
 	"github.com/ducketlab/auth/pkg/namespace"
+	"github.com/ducketlab/auth/pkg/policy"
+	"github.com/ducketlab/auth/pkg/role"
 	"github.com/ducketlab/auth/pkg/token"
 	"github.com/ducketlab/auth/pkg/user"
 	"github.com/ducketlab/mingo/logger"
@@ -73,4 +75,12 @@ func (c *Client) Micro() micro.MicroServiceClient {
 
 func (c *Client) Endpoint() endpoint.EndpointServiceClient {
 	return endpoint.NewEndpointServiceClient(c.connection)
+}
+
+func (c *Client) Policy() policy.PolicyServiceClient {
+	return policy.NewPolicyServiceClient(c.connection)
+}
+
+func (c *Client) Role() role.RoleServiceClient {
+	return role.NewRoleServiceClient(c.connection)
 }

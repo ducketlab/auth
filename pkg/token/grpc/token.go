@@ -53,3 +53,29 @@ func (s *service) describeToken(req *describeTokenRequest) (*token.Token, error)
 
 	return tk, nil
 }
+
+func (s *service) ValidateToken(ctx context.Context, req *token.ValidateTokenRequest) (*token.Token, error) {
+	if err := req.Validate(); err != nil {
+		return nil, exception.NewBadRequest(err.Error())
+	}
+
+	tk, err := s.describeToken(newDescribeTokenRequest(req.MakeDescribeTokenRequest()))
+	if err != nil {
+		return nil, exception.NewUnauthorized(err.Error())
+	}
+
+	if req.AccessToken != "" {
+		if tk.CheckAccessIsExpired() {
+			return nil, exception.NewAccessTokenExpired("access_token: %s has expired", tk.AccessToken)
+		}
+	}
+
+	if req.RefreshToken != "" {
+		if tk.CheckRefreshIsExpired() {
+			return nil, exception.NewRefreshTokenExpired("refresh_token: %s expired", tk.RefreshToken)
+		}
+	}
+
+	tk.Desensitize()
+	return tk, nil
+}
