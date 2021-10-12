@@ -9,6 +9,8 @@ import (
 	_ "github.com/ducketlab/auth/pkg/micro/http"
 	_ "github.com/ducketlab/auth/pkg/namespace/grpc"
 	_ "github.com/ducketlab/auth/pkg/namespace/http"
+	_ "github.com/ducketlab/auth/pkg/permission/grpc"
+	_ "github.com/ducketlab/auth/pkg/permission/http"
 	_ "github.com/ducketlab/auth/pkg/policy/grpc"
 	_ "github.com/ducketlab/auth/pkg/policy/http"
 	_ "github.com/ducketlab/auth/pkg/role/grpc"

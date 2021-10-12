@@ -119,6 +119,10 @@ func (req *CreateRoleRequest) Validate() error {
 	return validate.Struct(req)
 }
 
+func NewDefaulPermission() *Permission {
+	return &Permission{}
+}
+
 func (p *CreatePermissionRequest) Validate() error {
 	if p.ServiceId == "" || p.ResourceName == "" || p.LabelKey == "" {
 		return fmt.Errorf("permisson required service_id, resource_name and label_key")
@@ -186,4 +190,30 @@ func NewPermissionSet() *PermissionSet {
 
 func (s *PermissionSet) Add(items ...*Permission) {
 	s.Items = append(s.Items, items...)
+}
+
+func (s *Set) HasPermission(ep *endpoint.Endpoint) (*Permission, bool, error) {
+	for i := range s.Items {
+		p, ok, err := s.Items[i].HasPermission(ep)
+		if err != nil {
+			return nil, false, err
+		}
+
+		if ok {
+			p.Scope = s.Items[i].Scope
+			return p, ok, nil
+		}
+	}
+
+	return nil, false, nil
+}
+
+func (s *Set) RoleNames() []string {
+	var set []string
+	for i := range s.Items {
+		set = append(set, s.Items[i].Name)
+
+	}
+
+	return set
 }

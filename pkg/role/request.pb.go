@@ -368,8 +368,8 @@ type QueryPermissionRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	RoleId    string `protobuf:"bytes,1,opt,name=role_id,json=roleId,proto3" json:"role_id" validate:"required,lte=64"`
-	SkipItmes bool   `protobuf:"varint,2,opt,name=skip_itmes,json=skipItmes,proto3" json:"skip_itmes"`
+	RoleId    string `protobuf:"bytes,1,opt,name=role_id,json=roleId,proto3" json:"role_id,omitempty"`
+	SkipItmes bool   `protobuf:"varint,2,opt,name=skip_itmes,json=skipItmes,proto3" json:"skip_itmes,omitempty"`
 }
 
 func (x *QueryPermissionRequest) Reset() {

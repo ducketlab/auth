@@ -5,6 +5,7 @@ import (
 	"github.com/ducketlab/auth/pkg/endpoint"
 	"github.com/ducketlab/auth/pkg/micro"
 	"github.com/ducketlab/auth/pkg/namespace"
+	"github.com/ducketlab/auth/pkg/permission"
 	"github.com/ducketlab/auth/pkg/policy"
 	"github.com/ducketlab/auth/pkg/role"
 	"github.com/ducketlab/auth/pkg/token"
@@ -53,6 +54,10 @@ func NewClient(conf *Config) (*Client, error) {
 	}, nil
 }
 
+func (c *Client) GetClientId() string {
+	return c.config.clientId
+}
+
 func (c *Client) Domain() domain.DomainServiceClient {
 	return domain.NewDomainServiceClient(c.connection)
 }
@@ -83,4 +88,8 @@ func (c *Client) Policy() policy.PolicyServiceClient {
 
 func (c *Client) Role() role.RoleServiceClient {
 	return role.NewRoleServiceClient(c.connection)
+}
+
+func (c *Client) Permission() permission.PermissionServiceClient {
+	return permission.NewPermissionServiceClient(c.connection)
 }

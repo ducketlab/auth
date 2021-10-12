@@ -6,6 +6,7 @@ import (
 	"github.com/ducketlab/auth/pkg/endpoint"
 	"github.com/ducketlab/auth/pkg/micro"
 	"github.com/ducketlab/auth/pkg/namespace"
+	"github.com/ducketlab/auth/pkg/permission"
 	"github.com/ducketlab/auth/pkg/policy"
 	"github.com/ducketlab/auth/pkg/role"
 	"github.com/ducketlab/auth/pkg/token"
@@ -31,6 +32,8 @@ var (
 	Role role.RoleServiceServer
 	// Policy service
 	Policy policy.PolicyServiceServer
+	// Permission service
+	Permission permission.PermissionServiceServer
 )
 
 var (
@@ -77,6 +80,7 @@ func InitGrpcApi(server *grpc.Server)  {
 	endpoint.RegisterEndpointServiceServer(server, Endpoint)
 	role.RegisterRoleServiceServer(server, Role)
 	policy.RegisterPolicyServiceServer(server, Policy)
+	permission.RegisterPermissionServiceServer(server, Permission)
 }
 
 func RegisterService(name string, svr Service) {
@@ -128,6 +132,12 @@ func RegisterService(name string, svr Service) {
 			registryError(name)
 		}
 		Policy = value
+		addService(name, svr)
+	case permission.PermissionServiceServer:
+		if Permission != nil {
+			registryError(name)
+		}
+		Permission = value
 		addService(name, svr)
 	default:
 		panic(fmt.Sprintf("unknown service type %s", name))

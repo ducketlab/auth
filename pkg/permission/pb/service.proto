@@ -1,0 +1,14 @@
+syntax = 'proto3';
+
+package auth.permission;
+
+option go_package = "github.com/ducketlab/auth/pkg/permission";
+
+import "pkg/role/pb/role.proto";
+import "pkg/permission/pb/request.proto";
+
+service PermissionService {
+  rpc QueryPermission(QueryPermissionRequest) returns(role.PermissionSet);
+  rpc QueryRole(QueryRoleRequest) returns(role.Set);
+  rpc CheckPermission(CheckPermissionRequest) returns(role.Permission);
+}

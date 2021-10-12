@@ -1,0 +1,37 @@
+syntax = 'proto3';
+
+package auth.permission;
+
+option go_package = "github.com/ducketlab/auth/pkg/permission";
+
+import "github.com/ducketlab/mingo/cmd/protoc-gen-go-ext/extension/tag/tag.proto";
+
+message QueryPermissionRequest {
+  string namespace_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"namespace_id"'}
+  ];
+}
+
+message QueryRoleRequest {
+  string namespace_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"namespace_id"'}
+  ];
+  bool with_permission = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"with_permission"'}
+  ];
+}
+
+message CheckPermissionRequest {
+  string namespace_id = 1[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"namespace_id"'}
+  ];
+  string endpoint_id = 2[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"endpoint_id"'}
+  ];
+  string service_id = 3[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"service_id"'}
+  ];
+  string path = 4[
+    (google.protobuf.field_tag) = {struct_tag: 'json:"path"'}
+  ];
+}
