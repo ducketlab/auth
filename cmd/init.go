@@ -6,14 +6,16 @@ import (
 	"fmt"
 	"github.com/ducketlab/auth/pkg"
 	"github.com/ducketlab/auth/pkg/domain"
+	"github.com/ducketlab/auth/pkg/micro"
 	"github.com/ducketlab/auth/pkg/token"
 	"github.com/ducketlab/auth/pkg/user"
+	"github.com/ducketlab/auth/version"
 	"github.com/spf13/cobra"
 	"strings"
 )
 
 var InitCmd = &cobra.Command{
-	Use:   "init",
+	Use: "init",
 	RunE: func(cmd *cobra.Command, args []string) error {
 
 		if err := loadGlobalConfig(confType); err != nil {
@@ -64,7 +66,6 @@ type Initialer struct {
 }
 
 func (i *Initialer) Run() error {
-	fmt.Println()
 	fmt.Println("start init...")
 
 	u, err := i.initUser()
@@ -73,6 +74,14 @@ func (i *Initialer) Run() error {
 	}
 
 	fmt.Printf("user: %s [success]\n", u.Account)
+
+	svr, err := i.initService()
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf("Service: %s %s %s \n",
+		svr.Name, svr.ClientId, svr.ClientSecret)
 
 	return nil
 }
@@ -103,6 +112,19 @@ func (i *Initialer) initUser() (*user.User, error) {
 	req.Account = strings.TrimSpace(i.username)
 	req.Password = strings.TrimSpace(i.password)
 	return pkg.User.CreateAccount(i.mockContext(i.username), req)
+}
+
+func (i *Initialer) userContext() context.Context {
+	ctx := pkg.NewGrpcInCtx()
+	ctx.SetAccessToken(i.tk.AccessToken)
+	return ctx.Context()
+}
+
+func (i *Initialer) initService() (*micro.Micro, error) {
+	req := micro.NewCreateMicroRequest()
+	req.Name = version.ServiceName
+	req.Type = micro.Type_BUILD_IN
+	return pkg.Micro.CreateService(i.mockContext("internal"), req)
 }
 
 func init() {

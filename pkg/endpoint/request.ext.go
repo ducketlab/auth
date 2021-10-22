@@ -35,6 +35,13 @@ func (req *RegistryRequest) Endpoints(serviceId string) []*Endpoint {
 	return eps
 }
 
+func NewRegistryRequest(version string, entries []*http.Entry) *RegistryRequest {
+	return &RegistryRequest{
+		Version: version,
+		Entries: entries,
+	}
+}
+
 func NewRegistryResponse(message string) *RegistryResponse {
 	return &RegistryResponse{Message: message}
 }

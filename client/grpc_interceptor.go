@@ -18,6 +18,14 @@ import (
 
 type PathEntryHandleFunc func(path string) *httpb.Entry
 
+func NewGrpcAuthAuther(hf PathEntryHandleFunc, c *Client) *GrpcAuther {
+	return &GrpcAuther{
+		hf:    hf,
+		client:     c,
+		logger:     zap.L().Named("grpc-interceptor"),
+	}
+}
+
 type GrpcAuther struct {
 	hf    PathEntryHandleFunc
 	logger     logger.Logger
